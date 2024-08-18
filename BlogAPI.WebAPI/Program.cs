@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddDbContext<BlogDbContext>(options => 
-    options.UseSqlServer(builder.Configuration.GetConnectionString()));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("BlogConnection")));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
