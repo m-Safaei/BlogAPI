@@ -1,8 +1,15 @@
+using BlogAPI.Infrastructure.AppDbContext;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the IoC container:
 
 builder.Services.AddControllers();
+
+builder.Services.AddDbContext<BlogDbContext>(options => 
+    options.UseSqlServer(builder.Configuration.GetConnectionString()));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
