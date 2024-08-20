@@ -4,7 +4,7 @@ using BlogAPI.Infrastructure.AppDbContext;
 
 namespace BlogAPI.Infrastructure.Repositories;
 
-public class UserRepository:IUserRepository
+public class UserRepository : IUserRepository
 {
     private readonly BlogDbContext _context;
 
@@ -14,12 +14,12 @@ public class UserRepository:IUserRepository
     }
 
 
-    public async Task<User> AddUser(User user)
+    public async Task<ApplicationUser> AddUser(ApplicationUser user)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<User?> GetUserById(Guid id)
+    public async Task<ApplicationUser?> GetUserById(Guid id)
     {
         throw new NotImplementedException();
     }
@@ -34,12 +34,12 @@ public class UserRepository:IUserRepository
         throw new NotImplementedException();
     }
 
-    public async Task<User> UpdateUser(User user)
+    public async Task<ApplicationUser> UpdateUser(ApplicationUser user)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<List<User>> GetAllUsers()
+    public async Task<List<ApplicationUser>> GetAllUsers()
     {
         throw new NotImplementedException();
     }

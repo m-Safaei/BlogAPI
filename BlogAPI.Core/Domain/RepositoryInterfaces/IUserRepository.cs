@@ -4,17 +4,17 @@ namespace BlogAPI.Core.Domain.RepositoryInterfaces;
 
 public interface IUserRepository
 {
-    Task<User> AddUser(User user);
+    Task<ApplicationUser> AddUser(ApplicationUser user);
 
-    Task<User?> GetUserById(Guid id);
+    Task<ApplicationUser?> GetUserById(Guid id);
 
     Task<bool> UserExists(Guid id);
 
     Task<bool> DeleteUserById(Guid id);
 
-    Task<User> UpdateUser(User user);
+    Task<ApplicationUser> UpdateUser(ApplicationUser user);
 
-    Task<List<User>> GetAllUsers();
+    Task<List<ApplicationUser>> GetAllUsers();
 
 
 }

@@ -17,12 +17,12 @@ public class Comment
 
     public bool IsSeen { get; set; }
 
-    public Guid UserId { get; set; }
+    public string ApplicationUserId { get; set; }
 
-    public Guid BlogId { get; set; }
+    public string BlogId { get; set; }
 
     //Navigation Properties:
-    public User User { get; set; }
+    public ApplicationUser ApplicationUser { get; set; }
 
     public Blog Blog { get; set; }
 
