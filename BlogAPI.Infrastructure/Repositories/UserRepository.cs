@@ -1,5 +1,6 @@
 ﻿using BlogAPI.Core.Domain.Entities;
 using BlogAPI.Core.Domain.RepositoryInterfaces;
+using BlogAPI.Core.DTO;
 using BlogAPI.Infrastructure.AppDbContext;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -17,14 +18,16 @@ public class UserRepository : IUserRepository
     }
 
 
-    public async Task<ApplicationUser> AddUser(ApplicationUser user)
+    public async Task<IdentityResult> AddUser(ApplicationUser user, string password)
     {
-        throw new NotImplementedException();
+        IdentityResult result = await _userManager.CreateAsync(user, password);
+        return result;
+
     }
 
     public async Task<ApplicationUser?> GetUserByPhoneNumber(string phoneNumber)
     {
-        return  await _userManager.Users
+        return await _userManager.Users
             .FirstOrDefaultAsync(p => p.PhoneNumber == phoneNumber);
     }
     public async Task<ApplicationUser?> GetUserById(Guid id)

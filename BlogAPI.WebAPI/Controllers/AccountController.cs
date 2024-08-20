@@ -37,24 +37,17 @@ namespace BlogAPI.WebAPI.Controllers
 
             if (await _userService.IsPhoneNumberAlreadyRegistered(registerDto.PhoneNumber))
                 return BadRequest("This Phone number has already registered");
-
-            ApplicationUser user = new()
-            {
-                PhoneNumber = registerDto.PhoneNumber,
-                UserName = registerDto.FirstName + " " + registerDto.LastName,
-            };
-
-            IdentityResult result = await _userManager.CreateAsync(user, registerDto.Password);
-
-            if (result.Succeeded)
+            
+            var result = await _userService.AddUser(registerDto);
+            if (result.GetType() == typeof(ApplicationUser))
             {
                 //sign-In:
-                await _signInManager.SignInAsync(user, isPersistent: false);
+                await _signInManager.SignInAsync((ApplicationUser)result, isPersistent: false);
 
-                return Ok(user);
+                return Ok(result);
             }
 
-            return StatusCode(500, result.Errors);
+            return StatusCode(500, result);
         }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using BlogAPI.Core.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace BlogAPI.Core.Domain.RepositoryInterfaces;
 
 public interface IUserRepository
 {
     Task<ApplicationUser?> GetUserByPhoneNumber(string phoneNumber);
-    Task<ApplicationUser> AddUser(ApplicationUser user);
+    Task<IdentityResult> AddUser(ApplicationUser user,string password);
 
     Task<ApplicationUser?> GetUserById(Guid id);
 

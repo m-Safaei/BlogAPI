@@ -41,8 +41,7 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.UseHsts();
-app.UseHttpsRedirection();
+
 
 if (app.Environment.IsDevelopment())
 {
@@ -50,6 +49,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseHsts();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
