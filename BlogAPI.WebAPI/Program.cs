@@ -1,5 +1,9 @@
 using BlogAPI.Core.Domain.Entities;
+using BlogAPI.Core.Domain.RepositoryInterfaces;
+using BlogAPI.Core.ServiceInterfaces;
+using BlogAPI.Core.Services;
 using BlogAPI.Infrastructure.AppDbContext;
+using BlogAPI.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +16,10 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<BlogDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("BlogConnection")));
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -33,6 +41,9 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseHsts();
+app.UseHttpsRedirection();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

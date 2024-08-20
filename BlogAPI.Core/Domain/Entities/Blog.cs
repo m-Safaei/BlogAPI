@@ -4,6 +4,7 @@ namespace BlogAPI.Core.Domain.Entities;
 
 public class Blog
 {
+    [Key]
     public Guid Id { get; set; }
 
     public DateTime CreateDate { get; set; } = DateTime.Now;

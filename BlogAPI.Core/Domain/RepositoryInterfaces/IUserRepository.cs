@@ -4,6 +4,7 @@ namespace BlogAPI.Core.Domain.RepositoryInterfaces;
 
 public interface IUserRepository
 {
+    Task<ApplicationUser?> GetUserByPhoneNumber(string phoneNumber);
     Task<ApplicationUser> AddUser(ApplicationUser user);
 
     Task<ApplicationUser?> GetUserById(Guid id);

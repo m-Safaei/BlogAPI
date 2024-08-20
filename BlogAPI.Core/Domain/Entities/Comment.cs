@@ -4,6 +4,7 @@ namespace BlogAPI.Core.Domain.Entities;
 
 public class Comment
 {
+    [Key]
     public Guid Id { get; set; }
 
     [StringLength(10, MinimumLength = 3)]
@@ -17,9 +18,9 @@ public class Comment
 
     public bool IsSeen { get; set; }
 
-    public string ApplicationUserId { get; set; }
+    public Guid ApplicationUserId { get; set; }
 
-    public string BlogId { get; set; }
+    public Guid BlogId { get; set; }
 
     //Navigation Properties:
     public ApplicationUser ApplicationUser { get; set; }

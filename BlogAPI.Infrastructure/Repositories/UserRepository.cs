@@ -1,16 +1,19 @@
 ﻿using BlogAPI.Core.Domain.Entities;
 using BlogAPI.Core.Domain.RepositoryInterfaces;
 using BlogAPI.Infrastructure.AppDbContext;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogAPI.Infrastructure.Repositories;
 
 public class UserRepository : IUserRepository
 {
-    private readonly BlogDbContext _context;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public UserRepository(BlogDbContext context)
+
+    public UserRepository(UserManager<ApplicationUser> userManager)
     {
-        _context = context;
+        _userManager = userManager;
     }
 
 
@@ -19,6 +22,11 @@ public class UserRepository : IUserRepository
         throw new NotImplementedException();
     }
 
+    public async Task<ApplicationUser?> GetUserByPhoneNumber(string phoneNumber)
+    {
+        return  await _userManager.Users
+            .FirstOrDefaultAsync(p => p.PhoneNumber == phoneNumber);
+    }
     public async Task<ApplicationUser?> GetUserById(Guid id)
     {
         throw new NotImplementedException();
@@ -43,5 +51,6 @@ public class UserRepository : IUserRepository
     {
         throw new NotImplementedException();
     }
+
 }
 
