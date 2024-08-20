@@ -21,7 +21,7 @@ public class UserService : IUserService
         {
             Email = registerDto.Email,
             PhoneNumber = registerDto.PhoneNumber,
-            UserName = registerDto.Email,
+            UserName = registerDto.PhoneNumber,
             FirstName = registerDto.FirstName,
             LastName = registerDto.LastName,
         };
@@ -34,6 +34,18 @@ public class UserService : IUserService
         }
 
         return result.Errors;
+    }
+
+    public async Task<LoginResponseDto?> GetUserByPhoneNumber(string phoneNumber)
+    {
+        ApplicationUser? user = await _userRepository.GetUserByPhoneNumber(phoneNumber);
+        if (user == null) return null;
+
+        return new LoginResponseDto()
+        {
+            PersonName = user.FirstName + " " + user.LastName,
+            PhoneNumber = user.PhoneNumber
+        };
     }
 
     public async Task<bool> IsPhoneNumberAlreadyRegistered(string phoneNumber)
