@@ -13,20 +13,17 @@ namespace BlogAPI.WebAPI.Controllers
     [AllowAnonymous]
     public class AccountController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IUserService _userService;
+        private readonly IJwtService _jwtService;
 
-        public AccountController(UserManager<ApplicationUser> userManager
-                                , SignInManager<ApplicationUser> signInManager
-                                , RoleManager<ApplicationRole> roleManager
-                                , IUserService userService)
+        public AccountController(SignInManager<ApplicationUser> signInManager
+                                , IUserService userService
+                                ,IJwtService jwtService)
         {
-            _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
             _userService = userService;
+            _jwtService = jwtService;
         }
 
         [HttpPost("register")]
@@ -43,8 +40,8 @@ namespace BlogAPI.WebAPI.Controllers
             {
                 //sign-In:
                 await _signInManager.SignInAsync((ApplicationUser)result, isPersistent: false);
-
-                return Ok(result);
+                var authenticationResponse = await _jwtService.CreateJwtToken(registerDto.PhoneNumber);
+                return Ok(authenticationResponse);
             }
 
             return StatusCode(500, result);
@@ -63,7 +60,8 @@ namespace BlogAPI.WebAPI.Controllers
                 LoginResponseDto? user = await _userService.GetUserByPhoneNumber(loginDto.PhoneNumber);
                 if (user == null) return NoContent();
 
-                return Ok(user);
+                var authenticationResponse = await _jwtService.CreateJwtToken(loginDto.PhoneNumber);
+                return Ok(authenticationResponse);
             }
 
             return Unauthorized("Invalid Phone number or password");
