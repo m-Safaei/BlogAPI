@@ -10,7 +10,6 @@ namespace BlogAPI.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
     public class AccountController : ControllerBase
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
