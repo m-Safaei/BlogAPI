@@ -24,14 +24,14 @@ public class JwtService : IJwtService
     public async Task<AuthenticationResponseDto> CreateJwtToken(string phoneNumber)
     {
         ApplicationUser? user = await _userRepository.GetUserByPhoneNumber(phoneNumber);
-        DateTime expiration = DateTime.UtcNow.AddMinutes(
+        DateTime expiration = DateTime.Now.AddMinutes(
             Convert.ToDouble(_configuration["Jwt:EXPIRATION_MINUTES"]));
         Claim[] claims = new Claim[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()), //Subject(user id)
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), //JWT unique Id
             new Claim(JwtRegisteredClaimNames.Iat,
-                DateTime.UtcNow.ToString()), //Issued at (date and time of token generation)
+                DateTime.Now.ToString()), //Issued at (date and time of token generation)
             new Claim(ClaimTypes.NameIdentifier, user.PhoneNumber),//Unique name identifier of the user
             new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName),//Name of the user
         };

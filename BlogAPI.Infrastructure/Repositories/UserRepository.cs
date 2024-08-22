@@ -30,30 +30,6 @@ public class UserRepository : IUserRepository
         return await _userManager.Users
             .FirstOrDefaultAsync(p => p.PhoneNumber == phoneNumber);
     }
-    public async Task<ApplicationUser?> GetUserById(Guid id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<bool> UserExists(Guid id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<bool> DeleteUserById(Guid id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<ApplicationUser> UpdateUser(ApplicationUser user)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<List<ApplicationUser>> GetAllUsers()
-    {
-        throw new NotImplementedException();
-    }
-
+    
 }
 
