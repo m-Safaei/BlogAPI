@@ -25,6 +25,11 @@ public class UserRepository : IUserRepository
 
     }
 
+    public async Task<ApplicationUser?> GetUserById(Guid? id)
+    {
+        return await _userManager.Users.FirstOrDefaultAsync(x => x.Id == id);
+    }
+
     public async Task<ApplicationUser?> GetUserByPhoneNumber(string phoneNumber)
     {
         return await _userManager.Users

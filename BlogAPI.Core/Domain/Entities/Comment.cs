@@ -18,6 +18,8 @@ public class Comment
 
     public bool IsSeen { get; set; }
 
+    public DateTime CreatedDate { get; set; } = DateTime.Now;
+
     public Guid ApplicationUserId { get; set; }
 
     public Guid BlogId { get; set; }

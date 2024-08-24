@@ -13,6 +13,7 @@ public static class BlogMappers
                 Title = blog.Title,
                 Content = blog.Content,
                 CreateDate = blog.CreateDate,
+                Comments = blog.Comments.Select(c=>c.ToCommentDto()).ToList()
             };
         }
 

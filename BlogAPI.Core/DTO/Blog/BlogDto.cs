@@ -1,5 +1,6 @@
 ﻿using BlogAPI.Core.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
+using BlogAPI.Core.DTO.Comment;
 
 namespace BlogAPI.Core.DTO.Blog;
 
@@ -13,7 +14,6 @@ public class BlogDto
 
     public string Content { get; set; }
 
-
-    //public ICollection<Comment> Comments { get; set; }
+    public List<CommentDto> Comments { get; set; }
 }
 

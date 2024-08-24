@@ -8,10 +8,12 @@ namespace BlogAPI.Infrastructure.Repositories;
 public class BlogRepository : IBlogRepository
 {
     private readonly BlogDbContext _context;
+    private readonly ICommentRepository _commentRepository;
 
-    public BlogRepository(BlogDbContext context)
+    public BlogRepository(BlogDbContext context,ICommentRepository commentRepository)
     {
         _context = context;
+        _commentRepository = commentRepository;
     }
 
     public async Task<Blog> AddBlog(Blog blog)
@@ -23,12 +25,23 @@ public class BlogRepository : IBlogRepository
 
     public async Task<Blog?> GetBlogById(Guid id)
     {
-        return await _context.Blogs.FirstOrDefaultAsync(b => b.Id == id && !b.IsDeleted);
+        Blog? blog = await _context.Blogs.FirstOrDefaultAsync(b => b.Id == id && !b.IsDeleted);
+        if (blog != null)
+        {
+            blog.Comments = await _commentRepository.GetCommentsByBlogId(blog.Id);
+        }
+        return blog;
     }
 
     public async Task<List<Blog>> GetListOfBlogs()
     {
-        return await _context.Blogs.Where(b => !b.IsDeleted).ToListAsync();
+        List<Blog> blogs = await _context.Blogs.Where(b => !b.IsDeleted).ToListAsync();
+        foreach (Blog blog in blogs)
+        {
+            blog.Comments = await _commentRepository.GetCommentsByBlogId(blog.Id);
+        }
+
+        return blogs;
     }
 
     public async Task<Blog> UpdateBlog(Blog blog)
