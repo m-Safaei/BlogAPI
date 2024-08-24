@@ -1,6 +1,6 @@
 ﻿using BlogAPI.Core.Domain.Entities;
 using BlogAPI.Core.Domain.RepositoryInterfaces;
-using BlogAPI.Core.DTO;
+using BlogAPI.Core.DTO.User;
 using BlogAPI.Core.ServiceInterfaces;
 using Microsoft.AspNetCore.Identity;
 

@@ -1,9 +1,9 @@
 ﻿using BlogAPI.Core.Domain.Entities;
-using BlogAPI.Core.DTO;
+using BlogAPI.Core.DTO.Blog;
 
 namespace BlogAPI.Core.Mappers;
 
-    public static class BlogMappers
+public static class BlogMappers
     {
         public static BlogDto ToBlogDto(this Blog blog)
         {
@@ -13,6 +13,15 @@ namespace BlogAPI.Core.Mappers;
                 Title = blog.Title,
                 Content = blog.Content,
                 CreateDate = blog.CreateDate,
+            };
+        }
+
+        public static Blog ToBlog(this CreateBlogRequestDto createBlogRequestDto)
+        {
+            return new Blog()
+            {
+                Title = createBlogRequestDto.Title,
+                Content = createBlogRequestDto.Content,
             };
         }
     }

@@ -1,4 +1,4 @@
-﻿using BlogAPI.Core.DTO;
+﻿using BlogAPI.Core.DTO.Blog;
 using BlogAPI.Core.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +31,39 @@ namespace BlogAPI.WebAPI.Controllers
 
             if (blogDto == null) return NotFound();
             return Ok(blogDto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateBlog(CreateBlogRequestDto createBlogDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            CreateBlogResponseDto responseBlog = await _blogService.CreateBlog(createBlogDto);
+
+            return CreatedAtAction(nameof(GetBlog), new { id = responseBlog.Id }, responseBlog);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateBlog(Guid id, UpdateBlogRequestDto updateBlogDto)
+        {
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
+            UpdateBlogResponseDto? blogResponseDto = await _blogService.UpdateBlog(id, updateBlogDto);
+
+            if(blogResponseDto == null) return NotFound();
+
+            return Ok(blogResponseDto);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBlog(Guid id)
+        {
+            bool isDeleted = await _blogService.DeleteBlog(id);
+
+            if(!isDeleted) return NotFound();
+
+            return NoContent();
         }
     }
 }

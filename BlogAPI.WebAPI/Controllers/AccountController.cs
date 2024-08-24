@@ -1,5 +1,5 @@
 ﻿using BlogAPI.Core.Domain.Entities;
-using BlogAPI.Core.DTO;
+using BlogAPI.Core.DTO.User;
 using BlogAPI.Core.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -66,6 +66,7 @@ namespace BlogAPI.WebAPI.Controllers
             return Unauthorized("Invalid Phone number or password");
         }
 
+        [Authorize]
         [HttpGet("logout")]
         public async Task<IActionResult> Logout()
         {

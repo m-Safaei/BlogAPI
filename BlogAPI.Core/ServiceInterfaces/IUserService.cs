@@ -1,4 +1,4 @@
-﻿using BlogAPI.Core.DTO;
+﻿using BlogAPI.Core.DTO.User;
 
 namespace BlogAPI.Core.ServiceInterfaces;
 

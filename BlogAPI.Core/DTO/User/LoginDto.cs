@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BlogAPI.Core.DTO;
+namespace BlogAPI.Core.DTO.User;
 
 public class LoginDto
 {

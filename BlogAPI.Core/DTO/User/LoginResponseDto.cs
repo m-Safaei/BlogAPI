@@ -1,4 +1,4 @@
-﻿namespace BlogAPI.Core.DTO;
+﻿namespace BlogAPI.Core.DTO.User;
 
 public class LoginResponseDto
 {
