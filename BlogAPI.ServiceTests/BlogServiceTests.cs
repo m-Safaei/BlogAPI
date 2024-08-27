@@ -58,7 +58,7 @@ public class BlogServiceTests
         List<BlogDto> blogListResponse = await _blogService.GetListOfBlogs();
 
         //Assert
-        expectedBlogs.Should().BeEquivalentTo(blogListResponse);
+        blogListResponse.Should().BeEquivalentTo(expectedBlogs);
     }
 
     [Fact]
@@ -105,7 +105,7 @@ public class BlogServiceTests
         CreateBlogResponseDto blogResponse = await _blogService.CreateBlog(blogRequest);
 
         //Assert
-        expectedBlog.Should().BeEquivalentTo(blogResponse);
+        blogResponse.Should().BeEquivalentTo(expectedBlog);
     }
 
     [Fact]
@@ -138,7 +138,7 @@ public class BlogServiceTests
         //Act
         UpdateBlogResponseDto? blogResponseActual = await _blogService.UpdateBlog(blog.Id, updateBlogRequest);
         //Assert
-        blogResponseExpected.Should().BeEquivalentTo(blogResponseActual);
+        blogResponseActual.Should().BeEquivalentTo(blogResponseExpected);
     }
 
     [Fact]
