@@ -58,6 +58,8 @@ namespace BlogAPI.WebAPI.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             UpdateCommentResponseDto? commentResponse = await _commentService.UpdateComment(id, commentDto);
+            if (commentResponse == null) return NotFound();
+
             return Ok(commentResponse);
         }
 
