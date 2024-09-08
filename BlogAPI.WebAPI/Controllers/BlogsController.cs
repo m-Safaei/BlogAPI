@@ -12,15 +12,19 @@ namespace BlogAPI.WebAPI.Controllers
     public class BlogsController : ControllerBase
     {
         private readonly IBlogService _blogService;
+        private readonly ILogger<BlogsController> _logger;
 
-        public BlogsController(IBlogService blogService)
+        public BlogsController(IBlogService blogService,ILogger<BlogsController> logger)
         {
             _blogService = blogService;
+            _logger = logger;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetListOfBlogs()
         {
+            _logger.LogInformation("GetListOfBlogs action method of BlogsController");
+
             return Ok(await _blogService.GetListOfBlogs());
         }
 

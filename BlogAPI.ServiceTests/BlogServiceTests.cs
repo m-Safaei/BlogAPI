@@ -6,6 +6,7 @@ using BlogAPI.Core.Mappers;
 using BlogAPI.Core.ServiceInterfaces;
 using BlogAPI.Core.Services;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace BlogAPI.ServiceTests;
@@ -24,7 +25,9 @@ public class BlogServiceTests
         _blogRepositoryMock = new Mock<IBlogRepository>();
         _blogRepository = _blogRepositoryMock.Object;
 
-        _blogService = new BlogService(_blogRepository);
+        var loggerMock = new Mock<ILogger<BlogService>>();
+
+        _blogService = new BlogService(_blogRepository,loggerMock.Object);
     }
 
     [Fact]

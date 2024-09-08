@@ -3,20 +3,25 @@ using BlogAPI.Core.Domain.RepositoryInterfaces;
 using BlogAPI.Core.DTO.Blog;
 using BlogAPI.Core.Mappers;
 using BlogAPI.Core.ServiceInterfaces;
+using Microsoft.Extensions.Logging;
 
 namespace BlogAPI.Core.Services;
 
 public class BlogService : IBlogService
 {
     private readonly IBlogRepository _blogRepository;
+    private readonly ILogger<BlogService> _logger;
 
-    public BlogService(IBlogRepository blogRepository)
+    public BlogService(IBlogRepository blogRepository,ILogger<BlogService> logger)
     {
         _blogRepository = blogRepository;
+        _logger = logger;
     }
 
     public async Task<List<BlogDto>> GetListOfBlogs()
     {
+        _logger.LogInformation("GetListOfBlogs of BlogService");
+
         List<Blog> blogs = await _blogRepository.GetListOfBlogs();
 
         return blogs.Select(b => b.ToBlogDto()).ToList();

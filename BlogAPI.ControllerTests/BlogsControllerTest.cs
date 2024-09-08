@@ -5,6 +5,7 @@ using BlogAPI.Core.ServiceInterfaces;
 using BlogAPI.WebAPI.Controllers;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace BlogAPI.ControllerTests;
@@ -14,12 +15,15 @@ public class BlogsControllerTest
 
     private readonly IBlogService _blogService;
     private readonly Mock<IBlogService> _blogServiceMock;
+    private readonly Mock<ILogger<BlogsController>> _loggerMock;
     public BlogsControllerTest()
     {
         _fixture = new Fixture();
 
         _blogServiceMock = new Mock<IBlogService>();
         _blogService = _blogServiceMock.Object;
+
+        _loggerMock = new Mock<ILogger<BlogsController>>();
     }
 
     [Fact]
@@ -34,7 +38,7 @@ public class BlogsControllerTest
         };
         _blogServiceMock.Setup(m => m.GetListOfBlogs()).ReturnsAsync(blogs);
 
-        BlogsController controller = new BlogsController(_blogService);
+        BlogsController controller = new BlogsController(_blogService,_loggerMock.Object);
 
         //Act
         IActionResult result = await controller.GetListOfBlogs();
@@ -52,7 +56,7 @@ public class BlogsControllerTest
         //Assert
         _blogServiceMock.Setup(m => m.GetBlogById(It.IsAny<Guid>()))
             .ReturnsAsync(null as BlogDto);
-        BlogsController controller = new BlogsController(_blogService);
+        BlogsController controller = new BlogsController(_blogService,_loggerMock.Object);
 
         //Act
         IActionResult result = await controller.GetBlog(Guid.NewGuid());
@@ -70,7 +74,7 @@ public class BlogsControllerTest
             .Create();
         _blogServiceMock.Setup(m => m.GetBlogById(It.IsAny<Guid>()))
             .ReturnsAsync(blog);
-        BlogsController controller = new BlogsController(_blogService);
+        BlogsController controller = new BlogsController(_blogService,_loggerMock.Object);
 
         //Act
         IActionResult result = await controller.GetBlog(Guid.NewGuid());
@@ -86,7 +90,7 @@ public class BlogsControllerTest
     {
         //Arrange
         CreateBlogRequestDto blogRequest = _fixture.Create<CreateBlogRequestDto>();
-        BlogsController controller = new BlogsController(_blogService);
+        BlogsController controller = new BlogsController(_blogService, _loggerMock.Object);
 
         //Act
         controller.ModelState.AddModelError("Title", "Title can not be blank.");
@@ -105,7 +109,7 @@ public class BlogsControllerTest
         CreateBlogResponseDto blogResponseDto = _fixture.Create<CreateBlogResponseDto>();
         _blogServiceMock.Setup(m => m.CreateBlog(It.IsAny<CreateBlogRequestDto>()))
             .ReturnsAsync(blogResponseDto);
-        BlogsController controller = new BlogsController(_blogService);
+        BlogsController controller = new BlogsController(_blogService, _loggerMock.Object);
 
         //Act
         IActionResult result = await controller.CreateBlog(blogRequestDto);
@@ -121,7 +125,7 @@ public class BlogsControllerTest
     {
         //Arrange
         UpdateBlogRequestDto blogRequestDto = _fixture.Create<UpdateBlogRequestDto>();
-        BlogsController controller = new BlogsController(_blogService);
+        BlogsController controller = new BlogsController(_blogService,_loggerMock.Object);
 
         //Act
         controller.ModelState.AddModelError("Title", "Title can not be blank.");
@@ -139,7 +143,7 @@ public class BlogsControllerTest
         UpdateBlogRequestDto blogRequestDto = _fixture.Create<UpdateBlogRequestDto>();
         _blogServiceMock.Setup(m => m.UpdateBlog(It.IsAny<Guid>(),It.IsAny<UpdateBlogRequestDto>()))
             .ReturnsAsync(null as UpdateBlogResponseDto);
-        BlogsController controller = new BlogsController(_blogService);
+        BlogsController controller = new BlogsController(_blogService, _loggerMock.Object);
 
         //Act
         IActionResult result = await controller.UpdateBlog(Guid.NewGuid(), blogRequestDto);
@@ -157,7 +161,7 @@ public class BlogsControllerTest
         UpdateBlogResponseDto blogResponseDto = _fixture.Create<UpdateBlogResponseDto>();
         _blogServiceMock.Setup(m => m.UpdateBlog(It.IsAny<Guid>(), It.IsAny<UpdateBlogRequestDto>()))
             .ReturnsAsync(blogResponseDto);
-        BlogsController controller = new BlogsController(_blogService);
+        BlogsController controller = new BlogsController(_blogService,_loggerMock.Object);
 
         //Act
         IActionResult result = await controller.UpdateBlog(Guid.NewGuid(), blogRequestDto);
@@ -174,7 +178,7 @@ public class BlogsControllerTest
         //Arrange
         _blogServiceMock.Setup(m => m.DeleteBlog(It.IsAny<Guid>()))
             .ReturnsAsync(false);
-        BlogsController controller = new BlogsController(_blogService);
+        BlogsController controller = new BlogsController(_blogService, _loggerMock.Object);
 
         //Act
         IActionResult result =await controller.DeleteBlog(Guid.NewGuid());
@@ -190,7 +194,7 @@ public class BlogsControllerTest
         //Arrange
         _blogServiceMock.Setup(m => m.DeleteBlog(It.IsAny<Guid>()))
             .ReturnsAsync(true);
-        BlogsController controller = new BlogsController(_blogService);
+        BlogsController controller = new BlogsController(_blogService,_loggerMock.Object);
 
         //Act
         IActionResult result = await controller.DeleteBlog(Guid.NewGuid());

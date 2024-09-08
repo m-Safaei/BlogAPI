@@ -2,6 +2,7 @@
 using BlogAPI.Core.Domain.RepositoryInterfaces;
 using BlogAPI.Infrastructure.AppDbContext;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace BlogAPI.Infrastructure.Repositories;
 
@@ -9,11 +10,15 @@ public class BlogRepository : IBlogRepository
 {
     private readonly BlogDbContext _context;
     private readonly ICommentRepository _commentRepository;
+    private readonly ILogger<BlogRepository> _logger;
 
-    public BlogRepository(BlogDbContext context,ICommentRepository commentRepository)
+    public BlogRepository(BlogDbContext context
+                          ,ICommentRepository commentRepository
+                          ,ILogger<BlogRepository> logger)
     {
         _context = context;
         _commentRepository = commentRepository;
+        _logger = logger;
     }
 
     public async Task<Blog> AddBlog(Blog blog)
@@ -35,6 +40,8 @@ public class BlogRepository : IBlogRepository
 
     public async Task<List<Blog>> GetListOfBlogs()
     {
+        _logger.LogInformation("GetListOfBlogs of BlogRepository");
+
         List<Blog> blogs = await _context.Blogs.Where(b => !b.IsDeleted).ToListAsync();
         foreach (Blog blog in blogs)
         {
